@@ -22,7 +22,10 @@ final class TaskController: ResourceRepresentable {
     /// it should return an index of all available posts
     func index(_ req: Request) throws -> ResponseRepresentable {
         let folderId = try req.parameters.next(Int.self)
-        return try Model.makeQuery().filter("folderId" == folderId).all().makeJSON()
+        return try Model.makeQuery()
+            .filter("folderId" == folderId)
+            .all()
+            .makeJSON()
     }
     
     /// When consumers call 'POST' on '/posts' with valid JSON
