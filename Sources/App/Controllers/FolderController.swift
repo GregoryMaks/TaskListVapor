@@ -7,6 +7,7 @@
 
 import HTTP
 import Vapor
+import FluentProvider
 
 
 final class FolderController: ResourceRepresentable {
@@ -35,8 +36,9 @@ final class FolderController: ResourceRepresentable {
     
     /// When the consumer calls 'DELETE' on a specific resource, ie:
     /// 'posts/l2jd9' we should remove that resource from the database
-    func delete(_ req: Request, post: Model) throws -> ResponseRepresentable {
-        try post.delete()
+    func delete(_ req: Request, model: Model) throws -> ResponseRepresentable {
+        try TaskModel.makeQuery().filter("folderId" == model.id).delete()
+        try model.delete()
         return Response(status: .ok)
     }
     
